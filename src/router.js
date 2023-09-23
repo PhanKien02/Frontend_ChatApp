@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import RequireAuth from "./router/RequireAuth";
 const Loading = lazy(() => import("./components/loading/loading"));
 const AuthLayout = lazy(() => import("./layout/authentication/authLayout"));
 const LoginPage = lazy(() =>
@@ -12,6 +13,7 @@ const MainLayout = lazy(() => import("./layout/main/mainLayout"));
 function WebRouter() {
     return (
         <Router>
+                    <RequireAuth/>
             <Routes>
                 <Route
                     path="/auth"

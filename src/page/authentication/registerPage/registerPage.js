@@ -1,71 +1,121 @@
-import React from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import { useForm } from "react-hook-form";
+import { React } from "react";
+import { Button, Form, Input } from "antd";
 import styles from "./style.module.scss";
 function RegisterPage() {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm();
-    function Submit(data) {
-        console.log(data);
-    }
+    const handleFinish = (value) => {
+        console.log(value);
+    };
     return (
         <div className={styles.registerPage}>
             <div className="form-value">
                 <h2 className={styles.title}>Register</h2>
-                <Form onSubmit={handleSubmit(Submit)}>
-                    <Form.Group className={`${styles.inputbox}`}>
-                        <Form.Label className={styles.label} htmlFor="email">
-                            Email
-                        </Form.Label>
-                        <Form.Control
-                            className={styles.input}
-                            type="email"
-                            id="email"
-                            placeholder="email"
-                            {...register("email")}
-                        />
-                        {errors.email && <span>password is required</span>}
-                    </Form.Group>
-                    <Form.Group className={`${styles.inputbox}`}>
-                        <Form.Label className={styles.label} htmlFor="password">
-                            password
-                        </Form.Label>
-                        <Form.Control
-                            className={styles.input}
-                            type="password"
-                            id="password"
-                            placeholder="password"
-                            {...register("password")}
-                            required={true}
-                        />
-                    </Form.Group>
-                    <Form.Group className={`${styles.inputbox}`}>
-                        <Form.Label
-                            className={styles.label}
-                            htmlFor="confirmpassword">
-                            password
-                        </Form.Label>
-                        <Form.Control
-                            className={styles.input}
-                            type="password"
-                            id="confirmpassword"
-                            placeholder="confirmpassword"
-                            {...register("confirmpassword")}
-                        />
-                        {errors.confirmpassword && <span>password is required</span>}
-                    </Form.Group>
-                    <Form.Group>
-                        <Button type="submit">register</Button>
-                    </Form.Group>
+                <Form
+                    onFinish={handleFinish}
+                    className={styles.inputBox}
+                    name="registerForm"
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 16,
+                    }}
+                    style={{
+                        maxWidth: 500,
+                    }}
+                    initialValues={{
+                        remember: true,
+                    }}
+                    autoComplete="off">
+                    <Form.Item
+                        label="email"
+                        name="email"
+                        labelCol={{ flex: "410px" }}
+                        labelAlign="left"
+                        labelWrap
+                        wrapperCol={{ flex: 1 }}
+                        style={{ maxWidth: 400 }}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your email!",
+                            },
+                            {
+                                type: "email",
+                                message: "Email is incorrect.",
+                            },
+                        ]}>
+                        <Input placeholder="email" />
+                    </Form.Item>
+                    <Form.Item
+                        label="Password"
+                        name="password"
+                        labelCol={{ flex: "410px" }}
+                        labelAlign="left"
+                        labelWrap
+                        wrapperCol={{ flex: 1 }}
+                        style={{ maxWidth: 400 }}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your password!",
+                            },
+                            {
+                                min: 6,
+                                message:
+                                    "Password must be at least 6 characters long",
+                            },
+                        ]}>
+                        <Input.Password placeholder="password" />
+                    </Form.Item>
+                    <Form.Item
+                        label="Confirm password"
+                        name="confirmPassword"
+                        labelCol={{ flex: "410px" }}
+                        labelAlign="left"
+                        labelWrap
+                        wrapperCol={{ flex: 1 }}
+                        style={{ maxWidth: 400 }}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your confirm  password!",
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (
+                                        !value ||
+                                        getFieldValue("password") === value
+                                    ) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(
+                                        new Error(
+                                            "password entered do not match!"
+                                        )
+                                    );
+                                },
+                            }),
+                        ]}
+                        va>
+                        <Input.Password placeholder="confirm password" />
+                    </Form.Item>
+
+                    <Form.Item
+                        wrapperCol={{
+                            offset: 2,
+                            span: 20,
+                        }}>
+                        <Button
+                            className={styles.button}
+                            type="primary"
+                            htmlType="submit">
+                            Submit
+                        </Button>
+                    </Form.Item>
                 </Form>
                 <div className={styles.register}>
                     <p>
-                        you have a account <a href="/auth/login">login</a>
+                        <a href="/auth/login">you have a account login</a>
                     </p>
                 </div>
             </div>
