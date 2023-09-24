@@ -18,11 +18,13 @@ export const AuthSlice = createSlice (
     {
         name : "authSlice",
         initialState:initState ,
-        reducers:{},
-        reducer:{
-            LOG_OUT :state=>{
+        reducers:{
+            LOG_OUT :(state)=>{
+                state.user = null;
+                state.token = null;
+                state.isAuth = false;
+                state.message= "logout success";
                 localStorage.removeItem("auth")
-                state = {...initState}
             }
         },
         extraReducers:(builder)=>{
@@ -45,5 +47,6 @@ export const AuthSlice = createSlice (
         }
     }
 )
-export const { LOG_IN,LOG_OUT } = AuthSlice.actions;
+console.log(AuthSlice);
+export const {LOG_OUT} = AuthSlice.actions;
 export default AuthSlice.reducer;
