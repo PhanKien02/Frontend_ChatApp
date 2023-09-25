@@ -3,12 +3,15 @@ import { Button, Form, Input } from "antd";
 import styles from "./style.module.scss";
 import { userLogin } from "../../../redux/slices/authSlide";
 import { useDispatch,useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 function RegisterPage() {
+    const navigate = useNavigate();
     const [messageError,setMessageError] = useState(" ");
     const message = useSelector(state => state.authentication.message);
     const dispatch = useDispatch()
-    const handleFinish = (value) => {
-        dispatch(userLogin(value));
+    const handleFinish =  (value) => {
+        console.log(dispatch(userLogin(value)));
+        dispatch(userLogin(value)).then(res=>{ navigate("/")});
     };
     useEffect(()=>{
         setMessageError(message);
