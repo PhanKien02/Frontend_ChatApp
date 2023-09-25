@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import RequireAuth from "./router/RequireAuth";
 const Loading = lazy(() => import("./components/loading/loading"));
 const AuthLayout = lazy(() => import("./layout/authentication/authLayout"));
@@ -12,11 +12,10 @@ const RegisterPage = lazy(() =>
 const MainLayout = lazy(() => import("./layout/main/mainLayout"));
 function WebRouter() {
     return (
-        <Router>
-                    <RequireAuth/>
+        <BrowserRouter>
             <Routes>
                 <Route
-                    path="/auth"
+                    path="/auth/"
                     element={
                         <Suspense fallback={<Loading />}>
                             <AuthLayout />
@@ -39,15 +38,20 @@ function WebRouter() {
                         }
                     />
                 </Route>
+            </Routes>
+
+            <Routes>
                 <Route
                     path="/"
                     element={
                         <Suspense fallback={<Loading />}>
-                            <MainLayout />
+                            <RequireAuth>
+                                <MainLayout />
+                            </RequireAuth>
                         </Suspense>
                     }></Route>
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 
