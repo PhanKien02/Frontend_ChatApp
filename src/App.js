@@ -2,7 +2,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
-import WebRouter from './router';
+import WebRouter from './router/router';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 function App() {
