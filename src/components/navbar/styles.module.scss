@@ -1,0 +1,26 @@
+.user {
+    height: 61px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex: 0.5;
+    margin-top: 10px;
+    border-bottom: 1px solid #fff ;
+    padding-bottom: 20px;
+}
+.items{
+    flex: 10;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    a{
+        margin-bottom: 90px;
+    }
+}
+.setting{
+    flex: 1;
+    height: 100px;
+}
+*{
+    font-size: 22px;
+}
