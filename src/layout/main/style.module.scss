@@ -1,0 +1,16 @@
+.navbar{
+    width: 50px;
+    height: 100%;
+    background: #131A2B;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.sidebar{
+    background-color: #15E7DB;
+    align-items: center;
+}
+.main{
+    height: 100%;
+    display: flex;
+}

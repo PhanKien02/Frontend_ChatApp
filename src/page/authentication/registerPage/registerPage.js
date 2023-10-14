@@ -1,9 +1,18 @@
-import { React } from "react";
+import { React, useState } from "react";
 import { Button, Form, Input } from "antd";
+import request from "../../../utils/httpRequest";
 import styles from "./style.module.scss";
+import { useNavigate } from 'react-router-dom';
 function RegisterPage() {
-    const handleFinish = (value) => {
-        console.log(value);
+    const Navigate = useNavigate();
+    const [errorMessage,setErrorMessage] = useState("");
+    const handleFinish =async (user) => {
+        try {
+            await request.post("create-user",user);
+            Navigate("/auth/active-accout");
+        } catch (error) {
+            setErrorMessage(error.response.data.message);
+        }
     };
     return (
         <div className={styles.registerPage}>
@@ -17,15 +26,49 @@ function RegisterPage() {
                         span: 8,
                     }}
                     wrapperCol={{
-                        span: 16,
+                        span: 8,
                     }}
                     style={{
                         maxWidth: 500,
                     }}
                     initialValues={{
-                        remember: true,
+                        remember: false,
                     }}
                     autoComplete="off">
+                    <div className="d-flex justify-content-between">
+                        <Form.Item
+                            label="firstName"
+                            name="firstName"
+                            labelCol={{ flex: "100px" }}
+                            labelAlign="left"
+                            labelWrap
+                            wrapperCol={{ flex: 1 }}
+                            style={{ maxWidth: 150 }}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your firstName!",
+                                },
+                            ]}>
+                            <Input placeholder="firstName" />
+                        </Form.Item>
+                        <Form.Item
+                            label="LastName"
+                            name="lastName"
+                            labelCol={{ flex: "100px" }}
+                            labelAlign="left"
+                            labelWrap
+                            wrapperCol={{ flex: 1 }}
+                            style={{ maxWidth: 150 }}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "Please input your LastName!",
+                                },
+                            ]}>
+                            <Input placeholder="LastName" />
+                        </Form.Item>
+                    </div>
                     <Form.Item
                         label="email"
                         name="email"
@@ -95,11 +138,10 @@ function RegisterPage() {
                                     );
                                 },
                             }),
-                        ]}
-                        va>
+                        ]}>
                         <Input.Password placeholder="confirm password" />
                     </Form.Item>
-
+                        <p className="text-danger">{errorMessage}</p>
                     <Form.Item
                         wrapperCol={{
                             offset: 2,

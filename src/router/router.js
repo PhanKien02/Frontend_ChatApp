@@ -13,6 +13,7 @@ const ActiveAccoutPage = lazy(() =>
     import("../page/authentication/activeAccoutPage/activeAccout")
 );
 const MainLayout = lazy(() => import("../layout/main/mainLayout"));
+const SizeBar = lazy(()=>{import("../components/sidebar/sidebarComponent")})
 function WebRouter() {
     return (
         <BrowserRouter>
@@ -60,7 +61,15 @@ function WebRouter() {
                                 <MainLayout />
                             </RequireAuth>
                         </Suspense>
-                    }></Route>
+                    }>
+                    <Route
+                        path="group"
+                        element={
+                            <Suspense fallback={<Loading />}>
+                                    <SizeBar/>
+                            </Suspense>
+                        }></Route>
+                </Route>
             </Routes>
         </BrowserRouter>
     );

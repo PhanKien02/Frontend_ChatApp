@@ -2,19 +2,29 @@ import { React, useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import styles from "./style.module.scss";
 import { userLogin } from "../../../redux/slices/authSlide";
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function RegisterPage() {
     const navigate = useNavigate();
-    const [messageError,setMessageError] = useState(" ");
-    const message = useSelector(state => state.authentication.message);
-    const dispatch = useDispatch()
-    const handleFinish =  (value) => {
-        dispatch(userLogin(value)).then(()=>{ navigate("/")});
+    const [messageError, setMessageError] = useState(" ");
+    const message = useSelector((state) => state.authentication.message);
+    const dispatch = useDispatch();
+    const handleFinish = (value) => {
+        dispatch(userLogin(value)).then((response) => {
+            const userlogin = response.payload.data.user;
+            console.log(userlogin);
+            if (userlogin) {
+                if (userlogin.active) 
+                    navigate("/");
+                else {
+                    navigate("/auth/active-accout");
+                }
+            }
+        });
     };
-    useEffect(()=>{
+    useEffect(() => {
         setMessageError(message);
-    },[message])
+    }, [message]);
     return (
         <div className={styles.registerPage}>
             <div className="form-value">
@@ -72,7 +82,7 @@ function RegisterPage() {
                         ]}>
                         <Input.Password placeholder="password" />
                     </Form.Item>
-                        <p className="text-danger">{messageError}</p>
+                    <p className="text-danger">{messageError}</p>
                     <Form.Item
                         wrapperCol={{
                             offset: 2,
@@ -88,7 +98,9 @@ function RegisterPage() {
                 </Form>
                 <div className={styles.register}>
                     <p>
-                        <a href="/auth/register">Do not have an account: reister</a>
+                        <a href="/auth/register">
+                            Do not have an account: reister
+                        </a>
                     </p>
                 </div>
             </div>
