@@ -11,7 +11,7 @@ function RegisterPage() {
     const dispatch = useDispatch();
     const handleFinish = (value) => {
         dispatch(userLogin(value)).then((response) => {
-            const userlogin = response.payload.data.user;
+            const userlogin = response.payload.data.data.user;
             console.log(userlogin);
             if (userlogin) {
                 if (userlogin.active) 
@@ -20,11 +20,11 @@ function RegisterPage() {
                     navigate("/auth/active-accout");
                 }
             }
+        }).catch(()=>{
+            setMessageError(message);
         });
     };
-    useEffect(() => {
-        setMessageError(message);
-    }, [message]);
+
     return (
         <div className={styles.registerPage}>
             <div className="form-value">

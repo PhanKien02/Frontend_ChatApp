@@ -8,7 +8,7 @@ export const userLogin = createAsyncThunk(
             const result = await request.post("login",{
                 email: user.email,password : user.password
             })
-            return result.data;
+            return result;
         } catch (error) {
             return rejectWithValue(error.response.data);
         }
@@ -30,7 +30,7 @@ export const AuthSlice = createSlice (
         extraReducers:(builder)=>{
             builder
             .addCase(userLogin.fulfilled,(state,action)=>{
-                const login = action.payload.data;
+                const login = action.payload.data.data;
                 state.user = login.user;
                 state.token = login.token;
                 if(login.user.active)
@@ -41,17 +41,16 @@ export const AuthSlice = createSlice (
                 else
                     {
                         state.isAuth = false
-                        state.message = "login faild";
+                        state.message = "login failed";
                     }
                 localStorage.setItem("auth",JSON.stringify(state));
             })
             .addCase(userLogin.rejected,(state,action)=>{
                 state.user = null;
                 state.token = null;
-                state.isAuth = false
-                state.message = action.payload.message;
-            })
-            
+                state.isAuth = false;
+                state.message = "login failed";
+            })          
         }
     }
 )
