@@ -12,7 +12,6 @@ function MainLayout() {
             </div>
             <div className={styles.sidebar}>
                 <SidebarComponent/>
-                <Outlet/>
             </div>
             <div className={styles.content}>
                 <Outlet/>
