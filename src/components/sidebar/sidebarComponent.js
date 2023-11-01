@@ -1,12 +1,15 @@
 import React from "react";
 import styles from "./styles.module.scss";
+import { Input } from "antd";
 function SidebarComponent() {
+    const { Search } = Input;
     return (
         <>
             <div className={styles.search}>
-                <form>
-                    <input type="text" placeholder="search" />
-                </form>
+                <Search
+                    placeholder="input search text"
+                    enterButton
+                />
             </div>
         </>
     );
