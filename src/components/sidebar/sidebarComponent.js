@@ -7,7 +7,7 @@ function SidebarComponent() {
         <>
             <div className={styles.search}>
                 <Search
-                    placeholder="input search text"
+                    placeholder="Search"
                     enterButton
                 />
             </div>
