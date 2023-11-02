@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import request from "../../utils/httpRequest"
-let sessionStore = JSON.parse(localStorage.getItem('auth'));
+let sessionStore = JSON.parse(sessionStorage.getItem('auth'));
 let initState  = sessionStore ? sessionStore : {user : null,isAuth: false,token : null,message : null};
 export const userLogin = createAsyncThunk(
     "user/login",async (user, { rejectWithValue })=>{
@@ -24,7 +24,7 @@ export const AuthSlice = createSlice (
                 state.token = null;
                 state.isAuth = false
                 state.message = "logout success";
-                localStorage.removeItem("auth")
+                sessionStorage.removeItem("auth")
             }
         },
         extraReducers:(builder)=>{
@@ -35,21 +35,21 @@ export const AuthSlice = createSlice (
                 state.token = login.token;
                 if(login.user.active)
                     {
-                        state.message = "login success";
+                        state.message = login.message;
                         state.isAuth = true;
                     }
                 else
                     {
                         state.isAuth = false
-                        state.message = "login failed";
+                        state.message = login.message;
                     }
-                localStorage.setItem("auth",JSON.stringify(state));
+                sessionStorage.setItem("auth",JSON.stringify(state));
             })
             .addCase(userLogin.rejected,(state,action)=>{
                 state.user = null;
                 state.token = null;
                 state.isAuth = false;
-                state.message = "login failed";
+                state.message = action.payload.message;
             })          
         }
     }

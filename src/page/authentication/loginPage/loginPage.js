@@ -1,27 +1,25 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import { Button, Form, Input } from "antd";
 import styles from "./style.module.scss";
 import { userLogin } from "../../../redux/slices/authSlide";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 function RegisterPage() {
     const navigate = useNavigate();
     const [messageError, setMessageError] = useState(" ");
-    const message = useSelector((state) => state.authentication.message);
     const dispatch = useDispatch();
     const handleFinish = (value) => {
         dispatch(userLogin(value)).then((response) => {
-            const userlogin = response.payload.data.data.user;
-            console.log(userlogin);
+            const userlogin = response.payload.data.data;
+            setMessageError(response.payload.message);
             if (userlogin) {
-                if (userlogin.active) 
+                if (userlogin.user.active) {
+                    console.log(userlogin);
                     navigate("/");
-                else {
+                } else {
                     navigate("/auth/active-accout");
                 }
             }
-        }).catch(()=>{
-            setMessageError(message);
         });
     };
 
