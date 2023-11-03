@@ -4,27 +4,32 @@ import styles from "./style.module.scss";
 import { userLogin } from "../../../redux/slices/authSlide";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-function RegisterPage() {
+function Loginpage() {
     const navigate = useNavigate();
     const [messageError, setMessageError] = useState(" ");
     const dispatch = useDispatch();
     const handleFinish = (value) => {
         dispatch(userLogin(value)).then((response) => {
-            const userlogin = response.payload.data.data;
-            setMessageError(response.payload.message);
-            if (userlogin) {
-                if (userlogin.user.active) {
-                    console.log(userlogin);
-                    navigate("/");
-                } else {
-                    navigate("/auth/active-accout");
+            if (response.payload) {
+                const userlogin = response.payload.data.data;
+                setMessageError(response.payload.message);
+                console.log(response.payload.message);
+                if (userlogin) {
+                    if (userlogin.user.active) {
+                        console.log(userlogin);
+                        navigate("/");
+                    } else {
+                        navigate("/auth/active-accout");
+                    }
                 }
+            } else {
+                setMessageError("login failed");
             }
         });
     };
 
     return (
-        <div className={styles.registerPage}>
+        <div className={styles.loginpage}>
             <div className="form-value">
                 <h2 className={styles.title}>Login</h2>
                 <Form
@@ -106,4 +111,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default Loginpage;

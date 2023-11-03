@@ -46,10 +46,11 @@ export const AuthSlice = createSlice (
                 sessionStorage.setItem("auth",JSON.stringify(state));
             })
             .addCase(userLogin.rejected,(state,action)=>{
+                console.log(action.payload);
                 state.user = null;
                 state.token = null;
                 state.isAuth = false;
-                state.message = action.payload.message;
+                state.message = action.payload? action.payload.message : "login faild";
             })          
         }
     }
